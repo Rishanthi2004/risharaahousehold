@@ -1,0 +1,6 @@
+{
+  "name": "RISHARAA — Everything for Your Home & Lifestyle",
+  "description": "RISHARAA is a multi-category retail showroom offering home and kitchen appliances, furniture, mattresses, electronics, cooling solutions, handbags, and travel luggage under one roof.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
