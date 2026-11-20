@@ -96,45 +96,104 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProduct }) => {
         />
 
         <div className="relative z-10 max-w-[1320px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-16 lg:py-24">
-          <div className="max-w-2xl space-y-3.5 sm:space-y-6">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 'some' }}
+            className="max-w-2xl space-y-3.5 sm:space-y-6"
+          >
+            {/* Line 1: Welcome to RISHARAA */}
+            <div className="overflow-hidden">
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] },
+                  },
+                }}
+                className="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-semibold tracking-wide text-[#F4B844]"
+              >
+                <span>Welcome to RISHARAA</span>
+                <motion.span
+                  variants={{
+                    hidden: { scaleX: 0, opacity: 0 },
+                    visible: {
+                      scaleX: 1,
+                      opacity: 1,
+                      transition: { duration: 0.45, delay: 0.25, ease: [0.16, 1, 0.3, 1] },
+                    },
+                  }}
+                  style={{ transformOrigin: 'left' }}
+                  className="h-[1.5px] w-8 sm:w-12 bg-[#F4B844]/85"
+                  aria-hidden="true"
+                />
+              </motion.div>
+            </div>
+
+            {/* Lines 2 & 3: Main Headline (Line-by-Line Reveal) */}
+            <h1 className="font-serif text-[1.75rem] sm:text-[clamp(2.35rem,4.6vw,4.1rem)] font-bold text-white leading-[1.1] sm:leading-[1.08] tracking-[-0.015em]">
+              <span className="block overflow-hidden pb-0.5">
+                <motion.span
+                  variants={{
+                    hidden: { opacity: 0, y: '100%' },
+                    visible: {
+                      opacity: 1,
+                      y: '0%',
+                      transition: { duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] },
+                    },
+                  }}
+                  className="block"
+                >
+                  Everything Your Home Needs,
+                </motion.span>
+              </span>
+              <span className="block overflow-hidden pb-1">
+                <motion.span
+                  variants={{
+                    hidden: { opacity: 0, y: '100%' },
+                    visible: {
+                      opacity: 1,
+                      y: '0%',
+                      transition: { duration: 0.6, delay: 0.82, ease: [0.16, 1, 0.3, 1] },
+                    },
+                  }}
+                  className="block text-[#F4B844]"
+                >
+                  All in One Place.
+                </motion.span>
+              </span>
+            </h1>
+
+            {/* Line 4: Supporting Description */}
+            <div className="overflow-hidden">
+              <motion.p
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.6, delay: 1.18, ease: [0.16, 1, 0.3, 1] },
+                  },
+                }}
+                className="text-xs sm:text-lg text-[#F5EFE6] leading-relaxed max-w-xl"
+              >
+                From kitchen to comfort — discover home appliances, furniture, mattresses, cooling
+                electronics, and travel luggage under one roof.
+              </motion.p>
+            </div>
+
+            {/* Line 5: CTA Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 'some' }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-semibold tracking-wide text-[#F4B844]"
-            >
-              <span>Welcome to RISHARAA</span>
-              <span className="h-[1.5px] w-8 sm:w-12 bg-[#F4B844]/85" aria-hidden="true" />
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 'some' }}
-              transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif text-[1.75rem] sm:text-[clamp(2.35rem,4.6vw,4.1rem)] font-bold text-white leading-[1.1] sm:leading-[1.08] tracking-[-0.015em]"
-            >
-              Everything Your Home Needs,{' '}
-              <span className="text-[#F4B844]">All in One Place.</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 'some' }}
-              transition={{ duration: 0.6, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-              className="text-xs sm:text-lg text-[#F5EFE6] leading-relaxed max-w-xl"
-            >
-              From kitchen to comfort — discover home appliances, furniture, mattresses, cooling
-              electronics, and travel luggage under one roof.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 'some' }}
-              transition={{ duration: 0.6, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              variants={{
+                hidden: { opacity: 0, y: 22 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.55, delay: 1.52, ease: [0.16, 1, 0.3, 1] },
+                },
+              }}
               className="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-1 sm:pt-2"
             >
               <button
@@ -154,7 +213,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onSelectProduct }) => {
                 <span>Browse Products</span>
               </button>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
