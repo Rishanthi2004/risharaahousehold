@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ShoppingBag, CreditCard, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, ShoppingBag, CreditCard, CheckCircle2, ArrowRight, Heart } from 'lucide-react';
 import { Product } from '../data/catalog';
 import { SafeImage } from './SafeImage';
 import { useShortlist } from '../context/ShortlistContext';
+import { useWishlist } from '../context/WishlistContext';
 import { useRouter } from '../context/RouterContext';
 
 interface ProductDetailModalProps {
@@ -13,7 +14,9 @@ interface ProductDetailModalProps {
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClose }) => {
   const { addItem, setInquiryDraft, openDrawer } = useShortlist();
+  const { isWishlisted, toggleWishlist } = useWishlist();
   const { navigate } = useRouter();
+  const wishlisted = product ? isWishlisted(product.id) : false;
 
   useEffect(() => {
     if (!product) return;
@@ -138,7 +141,20 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
                 )}
 
                 {/* Actions */}
-                <div className="mt-auto pt-2 flex flex-col sm:flex-row gap-3">
+                <div className="mt-auto pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                  <button
+                    type="button"
+                    onClick={() => toggleWishlist(product)}
+                    aria-pressed={wishlisted}
+                    className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full border text-sm font-semibold transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8A829] ${
+                      wishlisted
+                        ? 'bg-[#FDECEC] border-[#F5C2C7] text-[#D93848]'
+                        : 'bg-white border-[#E7DCCB] text-[#231B15] hover:bg-[#F6EDE3]'
+                    }`}
+                  >
+                    <Heart className={`w-4 h-4 ${wishlisted ? 'fill-[#D93848]' : ''}`} />
+                    <span>{wishlisted ? 'Wishlisted' : 'Wishlist'}</span>
+                  </button>
                   <button
                     type="button"
                     onClick={handleAddToShortlist}
@@ -152,7 +168,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
                     onClick={handleShowroomInquiry}
                     className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[#241D18] text-white font-medium text-sm hover:bg-[#3A2F27] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2BA49]"
                   >
-                    <span>Inquire in Showroom</span>
+                    <span>Inquire</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>

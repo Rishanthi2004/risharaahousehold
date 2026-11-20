@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ShoppingBag, Check, Eye, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Check, Eye, ArrowRight, Heart } from 'lucide-react';
 import { Product } from '../data/catalog';
 import { SafeImage } from './SafeImage';
 import { useShortlist } from '../context/ShortlistContext';
+import { useWishlist } from '../context/WishlistContext';
 import { SCROLL_VIEWPORT } from './ScrollReveal';
 
 interface ProductCardProps {
@@ -20,13 +21,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   index = 0,
 }) => {
   const { addItem } = useShortlist();
+  const { isWishlisted, toggleWishlist } = useWishlist();
   const [justAdded, setJustAdded] = useState(false);
+
+  const wishlisted = isWishlisted(product.id);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
     addItem(product);
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1200);
+  };
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleWishlist(product);
   };
 
   return (
@@ -58,6 +67,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
         <div className="pointer-events-none absolute inset-0 bg-[#231B15]/0 group-hover:bg-[#231B15]/10 transition-colors duration-200" />
+
+        {/* Wishlist Heart Toggle */}
+        <motion.button
+          type="button"
+          whileTap={{ scale: 0.85 }}
+          onClick={handleToggleWishlist}
+          aria-label={wishlisted ? `Remove ${product.name} from wishlist` : `Save ${product.name} to wishlist`}
+          aria-pressed={wishlisted}
+          className={`absolute top-2 right-2 sm:top-3 sm:right-3 z-10 inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full backdrop-blur-xs border shadow-xs transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8A829] ${
+            wishlisted
+              ? 'bg-white border-[#F5C2C7] text-[#D93848]'
+              : 'bg-white/90 border-[#EAE0D2] text-[#5A4E44] hover:text-[#D93848] hover:bg-white'
+          }`}
+        >
+          <Heart className={`w-4 h-4 transition-transform ${wishlisted ? 'fill-[#D93848] scale-105' : ''}`} />
+        </motion.button>
+
         <span className="hidden sm:inline-flex pointer-events-none absolute bottom-3 left-3 items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/95 text-[#231B15] text-xs font-medium opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 shadow-sm">
           <Eye className="w-3.5 h-3.5 text-[#C68616]" />
           <span>View Details</span>

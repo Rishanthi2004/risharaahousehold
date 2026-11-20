@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { MotionConfig, AnimatePresence, motion } from 'motion/react';
 import { RouterProvider, useRouter } from './context/RouterContext';
 import { ShortlistProvider } from './context/ShortlistContext';
+import { WishlistProvider } from './context/WishlistContext';
 import { Product } from './data/catalog';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { ShortlistDrawer } from './components/ShortlistDrawer';
+import { WishlistDrawer } from './components/WishlistDrawer';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { CategoriesPage } from './pages/CategoriesPage';
@@ -57,6 +59,7 @@ const AppShell: React.FC = () => {
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
       />
+      <WishlistDrawer onSelectProduct={setSelectedProduct} />
       <ShortlistDrawer />
     </div>
   );
@@ -67,7 +70,9 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <RouterProvider>
         <ShortlistProvider>
-          <AppShell />
+          <WishlistProvider>
+            <AppShell />
+          </WishlistProvider>
         </ShortlistProvider>
       </RouterProvider>
     </MotionConfig>

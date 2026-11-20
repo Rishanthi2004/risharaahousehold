@@ -11,9 +11,11 @@ import {
   Package,
   Info,
   Phone,
+  Heart,
 } from 'lucide-react';
 import { useRouter, PageRoute } from '../context/RouterContext';
 import { useShortlist } from '../context/ShortlistContext';
+import { useWishlist } from '../context/WishlistContext';
 import { CATEGORIES, CategorySlug } from '../data/catalog';
 import { RisharaaMark } from './BrandLogoMark';
 import { SafeImage } from './SafeImage';
@@ -45,6 +47,7 @@ const MOBILE_BOTTOM_ITEMS: NavLinkItem[] = [
 export const Navbar: React.FC = () => {
   const { route, navigate } = useRouter();
   const { totalCount, openDrawer } = useShortlist();
+  const { totalCount: wishlistCount, openDrawer: openWishlist } = useWishlist();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileCatExpanded, setMobileCatExpanded] = useState(true);
   const [desktopCatOpen, setDesktopCatOpen] = useState(false);
@@ -206,12 +209,31 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Zone 3: Primary Action (Shortlist Bag + Clearly Visible Mobile Menu Button) */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Zone 3: Primary Actions (Wishlist + Shortlist + Mobile Menu Button) */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={openWishlist}
+              className="relative inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-[#FFFBF5] border border-[#E7DCCB] text-[#231B15] text-xs sm:text-sm font-semibold hover:bg-[#FDECEC] hover:border-[#F5C2C7] hover:text-[#D93848] transition-colors duration-200 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8A829]"
+              aria-label={`Open wishlist with ${wishlistCount} items`}
+            >
+              <Heart
+                className={`w-4 h-4 ${
+                  wishlistCount > 0 ? 'fill-[#D93848] text-[#D93848]' : 'text-[#5A4E44]'
+                }`}
+              />
+              <span className="hidden lg:inline">Wishlist</span>
+              {wishlistCount > 0 && (
+                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-[#D93848] text-white text-[10px] sm:text-[11px] font-bold tabular-nums">
+                  {wishlistCount}
+                </span>
+              )}
+            </button>
+
             <button
               type="button"
               onClick={openDrawer}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#F2BA49] text-[#231B15] text-xs sm:text-sm font-semibold hover:bg-[#E5A72B] transition-colors duration-200 whitespace-nowrap shrink-0 shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#231B15] focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#F2BA49] text-[#231B15] text-xs sm:text-sm font-semibold hover:bg-[#E5A72B] transition-colors duration-200 whitespace-nowrap shrink-0 shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#231B15] focus-visible:ring-offset-2"
               aria-label={`Open showroom shortlist with ${totalCount} items`}
             >
               <ShoppingBag className="w-4 h-4 text-[#231B15]" />
@@ -226,7 +248,7 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileOpen((prev) => !prev)}
-              className={`md:hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8A829] ${
+              className={`md:hidden inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8A829] ${
                 mobileOpen
                   ? 'bg-[#241D18] text-[#F2BA49] border border-[#241D18]'
                   : 'bg-[#FFFBF5] text-[#231B15] border border-[#DECBB3] hover:bg-[#F6EDE1]'
